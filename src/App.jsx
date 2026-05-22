@@ -10,12 +10,6 @@ export default function App() {
     const [copied, setCopied] = useState(false);
     const [autoCopyFailed, setAutoCopyFailed] = useState(false);
 
-    const closeWindow = () => {
-        setTimeout(() => {
-            window.close();
-        }, 10000);
-    };
-
     const copyText = async () => {
         try {
             await navigator.clipboard.writeText(textToCopy);
@@ -23,7 +17,7 @@ export default function App() {
             setCopied(true);
             setAutoCopyFailed(false);
 
-            closeWindow();
+            window.close();
         } catch (error) {
             console.error("Copy failed:", error);
 
@@ -130,8 +124,7 @@ export default function App() {
                                     </p>
 
                                     <p className="mt-2 text-sm text-zinc-400">
-                                        Esta pestaña intentará cerrarse
-                                        automáticamente.
+                                        Intentando cerrar la pestaña...
                                     </p>
                                 </div>
                             )}
