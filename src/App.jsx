@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
 
 export default function App() {
-    const textToCopy = decodeURIComponent(window.location.pathname.slice(1));
+    const rawPath = window.location.pathname.slice(1);
+
+    const textToCopy = rawPath ? decodeURIComponent(rawPath) : "";
 
     const hasText = textToCopy.trim() !== "";
 
     const [copied, setCopied] = useState(false);
     const [autoCopyFailed, setAutoCopyFailed] = useState(false);
-    const [seconds, setSeconds] = useState(10);
 
-    const startCloseCountdown = () => {
-        let countdown = 10;
-
-        const interval = setInterval(() => {
-            countdown--;
-
-            setSeconds(countdown);
-
-            if (countdown <= 0) {
-                clearInterval(interval);
-
-                window.close();
-            }
-        }, 1000);
+    const closeWindow = () => {
+        setTimeout(() => {
+            window.close();
+        }, 10000);
     };
 
     const copyText = async () => {
@@ -32,7 +23,7 @@ export default function App() {
             setCopied(true);
             setAutoCopyFailed(false);
 
-            startCloseCountdown();
+            closeWindow();
         } catch (error) {
             console.error("Copy failed:", error);
 
@@ -116,7 +107,7 @@ export default function App() {
                                 Ejemplo válido:
                                 <br />
                                 <span className="text-red-400">
-                                    tusitio.com/texto-a-copiar
+                                    tusitio.com/netflix123
                                 </span>
                             </p>
                         </div>
@@ -135,14 +126,12 @@ export default function App() {
                             {copied && (
                                 <div className="mb-6 rounded-2xl border border-green-500/20 bg-green-500/10 p-4 text-center">
                                     <p className="text-lg font-semibold text-green-400">
-                                        ✅ Texto copiado automáticamente
+                                        ✅ Texto copiado correctamente
                                     </p>
 
                                     <p className="mt-2 text-sm text-zinc-400">
-                                        Esta pestaña intentará cerrarse en{" "}
-                                        <span className="font-bold text-white">
-                                            {seconds}s
-                                        </span>
+                                        Esta pestaña intentará cerrarse
+                                        automáticamente.
                                     </p>
                                 </div>
                             )}
