@@ -17,7 +17,9 @@ export default function App() {
             setCopied(true);
             setAutoCopyFailed(false);
 
-            window.close();
+            setTimeout(() => {
+                window.close();
+            }, 300);
         } catch (error) {
             console.error("Copy failed:", error);
 
@@ -26,9 +28,13 @@ export default function App() {
     };
 
     useEffect(() => {
-        if (hasText) {
-            copyText();
-        }
+        const timer = setTimeout(() => {
+            if (hasText) {
+                copyText();
+            }
+        }, 100);
+
+        return () => clearTimeout(timer);
     }, []);
 
     return (
